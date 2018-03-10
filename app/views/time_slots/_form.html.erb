@@ -1,0 +1,30 @@
+<% calculate_default_times_time_slots %>
+
+    <% if params[:calendar] %>
+      <%= (f.hidden_field :calendar_id, value: params[:calendar].to_i) unless params[:calendar].to_i == 0 %>
+    <% else %>
+      <p>
+        <%= f.label :calendar_id %><br />
+        <%= select_tag 'time_slot[calendar_id]', options_from_collection_for_select(current_department.calendars, :id, :name, params[:calendar].to_i)%>
+      </p>
+    <% end %>
+
+      <p>
+        <%= f.label :date %><br />
+        <%= f.date_select :start_date, default: @default_start_date %>
+      </p>
+      <p>
+        <%= f.label :start %><br />
+        <%= f.time_select :start_time, {minute_step: @time_increment, default: @time_slot.start, ampm: true} %>
+      </p>
+      <p>
+        <%= f.label :end %><br />
+        <%#= f.hidden_field :end_date, value: @default_end_date %>
+        <%= f.time_select :end_time, {minute_step: @time_increment, default: @time_slot.end, ampm: true} %>
+      </p>
+      <p>
+        <%= f.label :location_id %><br />
+        <%= select_tag 'time_slot[location_id]', option_groups_from_collection_for_select(@department.loc_groups, :locations, :name, :id, :name, @time_slot.location_id)%><br />
+      </p>
+
+  </p>

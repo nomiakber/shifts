@@ -1,0 +1,9 @@
+<% title = "Edit Location" %>
+
+<%= render partial: 'form', locals: {title: title} %>
+
+<p>
+  <%= link_to "Show", @location %> |
+  <%= link_to "View All", department_locations_path(@department) %>
+</p>
+

@@ -1,0 +1,24 @@
+<%#= render partial: 'data_types/progress_bar', locals: {current_step: 1} %>
+  <%= form_for @data_type do |form| %>
+    <%= form.error_messages %>
+    <p>
+      <%= form.label :name %> (e.g. "Printer")<br />
+      <%= form.text_field :name %>
+    </p>
+    <p>
+      <%= form.label :description %><br />
+      <%= form.text_field :description %>
+    </p>
+
+
+  <div id="data_fields" style="display:none">
+    <h2>Data Fields</h2>
+    <%= render partial: 'data_field', collection: @data_type.data_fields %>
+  </div>
+  <div class="javascript_link" style="display:none">
+    <%= link_to_function "Add a data field", "$('#data_fields').append('#{j render partial: "data_field", object: DataField.new}')"%>
+  </div>
+ <br /> <br />
+<%= form.submit "Submit" %>
+
+<% end %>

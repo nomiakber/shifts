@@ -1,0 +1,30 @@
+<% title "Role" %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @role.name %>
+</p>
+<p>
+  <strong>Permissions:</strong><br />
+  <ul>
+    <%= "<li>"+@department.admin_permission.name+"</li>" if @role.permissions.include?(@department.admin_permission) %>
+    <% if @department.loc_groups.empty? %>
+      <p>Permissions for actions like viewing or signing up for shifts are granted per-location group. Please add one or more location groups to include the relevant permissions in your roles.</p>
+    <% end %>
+    <% for lg in @role.department.loc_groups %>
+        <li><%= lg.name %></li><br />
+          <ul>
+          <% for perm in lg.permissions %>
+              <%= "<li>".html_safe+perm.name+"</li>".html_safe if @role.permissions.include?(perm) %>
+          <% end %><br />
+          </ul>
+    <% end %>
+  </ul>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_role_path(@role) %> |
+  <%= link_to "Destroy", @role, confirm: 'Are you sure?', method: :delete %> |
+  <%= link_to "View All", department_roles_path(@department) %>
+</p>
+

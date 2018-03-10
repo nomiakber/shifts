@@ -1,0 +1,58 @@
+<% calculate_default_times_shifts %>
+  <% if params[:xPercentage] %>
+    <%= f.hidden_field :start_date, value: @default_start_date, id: :start_date  %>
+  <% else %>
+    <p>
+      <%= f.label :date %><br />
+      <%= f.date_select :start_date, default: @default_start_date, id: :start_date  %>
+    </p>
+  <% end %>
+  <p>
+    <%= f.label :start %><br />
+    <%= f.time_select :start_time, {minute_step: @time_increment,
+                                    ampm: true,
+                                    default: @shift.start} %>
+  </p>
+  <p>
+  <%# if params[:xPercentage] %>
+    <%#= f.hidden_field :end_date, value: @default_end_date, id: :end_date  %>
+  <%# else %>
+    <%#= f.date_select :end_date, default: @default_end_date, id: :end_date  %>
+  <%# end %>
+    <%= f.label :end %><br />
+    <%= f.time_select :end_time, {minute_step: @time_increment, 
+                                  ampm: true,
+                                  default: @shift.end} %>
+  </p>
+  <p>
+    <%= f.label :location_id %><br />
+    <%= select_tag 'shift[location_id]', option_groups_from_collection_for_select(current_department.loc_groups, :locations, :name, :id, :name, @shift.location ? @shift.location.id : params[:location_id].to_i )%><br />
+  </p>
+	<% if @shift.location.nil? && params[:location_id] %>
+    <% select_lg = Location.find(params[:location_id]).loc_group %>
+	<% elsif @shift.location %>
+	  <% select_lg = @shift.location.loc_group%>
+	<% end %>
+
+  <% if current_user.is_admin_of?(current_department) %>
+		<% if select_lg.nil? || current_user.is_superuser? %>
+			<p>
+		    <%= f.label :user_id %><br />
+		    <%= f.collection_select(:user_id, current_department.active_users.sort_by{|u| u.name}, :id, :name, {prompt: "Select a user"}) %>
+		  </p>
+		<% else %>
+			<p>
+	      <%= f.label :user_id %><br />
+	      <%= f.collection_select(:user_id, current_department.active_users.delete_if{|u| !u.can_signup?(select_lg)}.sort_by{|u| u.name}, :id, :name, {prompt: "Select a user"}) %>
+	    </p>
+		<% end %>
+    <p>
+      <%= f.label :calendar_id, "Calendar" %><br />
+      <%= f.collection_select(:calendar_id, current_department.calendars, :id, :name) %>
+    </p>
+    <p>
+      <%= f.check_box :power_signed_up %> Power signup
+    </p>
+  <% elsif params[:calendar] %>
+    <%= (f.hidden_field :calendar_id, value: params[:calendar].to_i) unless params[:calendar].to_i == 0 %>
+  <% end %>

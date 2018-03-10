@@ -1,0 +1,18 @@
+<%= form_for user do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :nick_name %><br />
+    <%= f.text_field :nick_name %>
+  </p>
+
+  <div class='profile'>
+    <h2>User Profile</h2>
+    <%= render partial: 'user_profiles/form' %>
+  </div>
+
+    <p><%= f.submit submit %></p>
+  <% if @user.auth_type == "built-in"%>
+    <p><%= render file: "password_resets/edit.html.erb" %></p>
+  <% end %>
+<% end %>
+

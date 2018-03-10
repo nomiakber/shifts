@@ -1,0 +1,30 @@
+<% title "Import Users From CSV" %>
+<% if @results %>
+  <% unless @results[:successes].empty? %>
+  <p>
+    The following users were successfully imported:
+  </p>
+  <ul>
+    <% @results[:successes].each do |item| %>
+      <li><%= item[:name] %></li>
+    <% end %>
+  </ul>
+  <% end %>
+
+  <% unless @results[:failures].empty? %>
+  <p>
+    The following users failed to be imported:
+  </p>
+  <ul>
+    <% @results[:failures].each do |item| %>
+      <li><%= item[:name] %>: <%= item[:errors] %></li>
+    <% end %>
+  </ul>
+  <% end %>
+<% end %>
+<h3>Please upload a csv file in the correct format. (Columns: login, first_name, nick_name, last_name, email, employee_id, role.)</h3>
+<%= form_tag url_for(action: 'verify_import'), multipart: true do %>
+   <p> <label for="file">File to Upload</label> <%= file_field_tag "file" %></p>
+    <p><%= submit_tag "Upload" %><p>
+  <% end %>
+

@@ -1,0 +1,49 @@
+// This is the SCSS manifest for all of Shifts' CSS/SASS. This file
+// imports all of our stylesheets to compile into one CSS file.
+//
+// Order matters! The font must be loaded before everything else, or else it
+// won't be available to Bootstrap. Bootstrap must come second, since all of our
+// styling is based on the variables and mixins that Bootstrap defines. After
+// that, the order is pretty self explanatory. The order of imports under
+// "Partial Imports" doesn't really matter, as long as layouts comes first.
+// Make sure to add a new import rule whenever you make a new folder in the
+// stylesheets directory.
+// -----------------------------------------------------------------------------
+
+$navbar-default-bg: #8b9b6c;
+$navbar-default-color: #fefefe;
+$navbar-default-link-color: #fefefe;
+$navbar-default-link-active-color: #fefefe;
+$navbar-default-border: darken($navbar-default-bg, 1%);
+$font-size-base: 14px;
+$font-size-h1: floor($font-size-base * 2.3);
+
+@import 'bootstrap';
+
+body { padding-top: 60px; }
+
+@import "font-awesome";
+
+// @import 'jquery.ui.all';
+@import 'jquery-tablesorter/theme.default';
+@import 'jquery.Jcrop';
+
+@import 'global';
+
+@import 'datepicker';
+@import 'links';
+@import 'loc_groups';
+@import 'nav';
+
+@import 'notice';
+@import 'payforms';
+@import 'public_view';
+@import 'report';
+@import 'shift';
+@import 'shift_view_refactoring';
+@import 'templates_show';
+@import 'timeline';
+@import 'user_profile';
+@import 'verify_import';
+@import 'token-input';
+@import 'tokeninput-facebook'

@@ -1,0 +1,31 @@
+<table id="tasks_records_table" class="tablesorter">
+	<thead>
+		<tr>
+			<th>Date/Time</th>
+			<th>User</th>
+			<th>Shift</th>
+		</tr>
+	</thead>
+	<tbody>
+<% if @shifts_tasks.empty? %>
+	<tr>
+		<td colspan=4>There are no records for this task.</td>
+	</tr>
+<% else %>
+	<% @shifts_tasks.each do |task| %>
+	   <tr>
+		  <td><%= task.created_at.strftime("%Y-%m-%d, %I:%M %p") %></td>
+		  <td><%= link_to task.shift.user.name, user_path(task.shift.user)%></td>
+			<td id="shift<%=task.shift.id%>" class="<%= task.shift.css_class(current_user) %> click_to_show"><a href="#"><%= task.shift.task_time %></td>
+		</tr>
+	<% end %>
+<% end %>
+</tbody>
+</table>
+<script type="text/javascript">$(document).ready(function(){$.tablesorter.defaults.widgets = ['zebra'];$("#tasks_records_table").tablesorter({sortList: [[0,1]]});});</script>
+
+<div id="AJAX_status"></div><%# for AJAX status updates %>
+
+<%= javascript_tag do %>
+	shiftsPath = '<%= shifts_path %>';
+<% end %>

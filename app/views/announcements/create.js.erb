@@ -1,0 +1,13 @@
+<% if @announcement.errors.empty? %>
+  <% if current_user.current_shift %>
+    $('#message_center').html("<%= escape_javascript render partial: 'notices/notice', collection: current_user.current_shift.report.get_notices, locals: {html_class: 'report_notice'} %>");
+  <% end %>
+  $('#dashboard_notices').html("<%= escape_javascript render partial: 'notices/dashboard' %>");
+  $('#all_notices').html("<%= escape_javascript render partial: 'notices/all_notices' %>");
+
+  $('#modal').modal('hide'); 
+  $('#flash').html("<%= escape_javascript render partial: 'layouts/flash', locals: {flash: flash} %>");
+  <% flash.discard %>
+<% else %>
+  $('#errors').html("<%= escape_javascript render partial: 'notices/error_messages' %>");
+<% end %>

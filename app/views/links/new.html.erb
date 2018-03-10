@@ -1,0 +1,8 @@
+<% if params[:layout]=="false" %>
+  <%= render partial: 'form', layout: 'layouts/modal_form_layout', 
+    locals:{modal_title: "Create new link", submit_text: "Create", submitting_text: "Creating..."} %>
+<% else %>
+  <%= render partial: 'form',
+    locals:{submit_text: "Create", submitting_text: "Creating..."} %>
+<% end %>
+

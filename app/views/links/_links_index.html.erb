@@ -1,0 +1,28 @@
+<h1 id="page_title">Links</h1>
+
+<%= link_to_post_a_link %> <br /><br />
+
+
+<fieldset class="index">	
+	<legend>Department Wide</legend>
+	<ul id = "useful_links">
+		<%= render partial: "notices/link", collection: current_department.links.active %>
+    </ul>
+	<br/>
+</fieldset>
+
+  <% current_user.user_config.view_loc_groups.each do |loc_group| %>
+		  <% loc_group.locations.active.each do |loc| %>
+		    <% @loc_links = loc.links.active %>
+		    <% unless @loc_links.empty? %>
+				<fieldset class ="index">
+					<legend><%= loc.name %></legend>
+					<ul id = "useful_links">
+						<%= render partial: "notices/link", collection: @loc_links %>
+					</ul>
+		      		<br/>
+		    	</fieldset>
+		    <% end %>
+		  <% end %>
+  <% end %>
+

@@ -1,0 +1,26 @@
+<% title "Roles" %>
+<p>
+  <%= link_to new_department_role_path(@department), class: 'btn btn-default' do %>
+    <i class="fa fa-plus-circle"></i>
+    Add a New Role
+  <% end %>
+</p>
+<table class="tablesorter">
+ <thead>
+  <tr>
+    <th>Role Name</th>
+  </tr>
+ </thead>
+ <tbody>
+	<% for role in @roles %>
+	<tr>
+      <td><%= link_to role.name, role_path(role) %></td>
+      <td><%= link_to "Show all users", users_role_path(role)%></td>
+      <td><%= link_to "Edit", edit_role_path(role)%></td>
+      <td><%= link_to "Delete", role, confirm: 'Are you sure?', method: :delete %></td>
+    </tr>
+	<% end %>
+ </tbody>
+</table>
+
+

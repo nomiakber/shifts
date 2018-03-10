@@ -1,0 +1,59 @@
+<% title "Sub Requests" %>
+
+<% if current_user.is_admin_of?(current_department) %>
+<%= link_to "50 Most Recent Sub Requests", sub_requests_path(include_past: 1, limit: 50) %>
+<% end %>
+
+<table id="requests_table", class = "tablesorter">
+ <thead>
+  <tr>
+    <th>Date/Time</th>
+    <th>Location</th>
+	<th>Requestor</th>
+    <th>Reason</th>
+  </tr>
+ </thead>
+<% @subs.first(@limit).each do |sub_request| %>
+ <tbody>
+  <tr>
+    <td class="sub_date">
+		<%= sub_request.start.to_s(:gg) %><br>
+		<%= sub_request.start.to_s(:am_pm) %> - <%= sub_request.end.to_s(:am_pm) %><br>
+		<% if !(sub_request.start==sub_request.mandatory_start && sub_request.end==sub_request.mandatory_end) %>
+			<span class="sub_time_mandatory">(<%= sub_request.mandatory_start.to_s(:twelve_hour) %> - <%= sub_request.mandatory_end.to_s(:twelve_hour) %>)</span>
+		<% end %>
+	</td>
+
+	<td class="sub_location"><%= sub_request.shift.location.short_name.to_s %></td>
+	<td class="sub_requestor"><%= link_to sub_request.shift.user.name.to_s, user_profile_path(sub_request.shift.user.login)%></td>
+	<td class="sub_reason"><div class="sub_reason_container"><%= sub_request.reason.gsub(/\r\n/, "    ").truncate(215) %></div></td>
+	<td class="sub_show_link"><%= link_to 'Show', sub_request %></td>
+	<td class="sub_show_link"><%= link_to 'Show Shift', sub_request.shift %></td>
+
+	<% if current_user.can_take_sub?(sub_request) %>
+		<td class="sub_take_link"><%= link_to 'Take', get_take_info_sub_request_path(sub_request) %></td>
+	<% else %>
+		<td class="sub_invalid">Take</td>
+	<% end %>
+
+	<% if current_user.is_admin_of?(sub_request.shift.department) or current_user == sub_request.user %>
+    	<td class="sub_edit_link"><%= link_to 'Edit', edit_sub_request_path(sub_request) %></td>
+    	<td class="sub_destroy_link"><%= link_to 'Destroy', sub_request, confirm: 'Are you sure?', method: :delete %></td>
+	<% else %>
+		<td class="sub_invalid">Edit</td>
+		<td class="sub_invalid">Destroy</td>
+	<% end %>
+
+  </tr>
+ </tbody>
+<% end %>
+</table>
+<% if @index_link %>
+	<%= link_to "request another sub", new_shift_sub_request_path(@shift) %>
+	<%= link_to "view all sub requests", sub_requests_path, id: "view_all" %><br>
+<% end %>
+<% if @limit_links %>
+	<%= link_to "view more", sub_requests_path(anchor: "view_more", limit: @limit+25), id: "view_more" %>
+	<%= link_to "view all", sub_requests_path(anchor: "view_all", limit: @subs.size), id: "view_all" %>
+<% end %>
+

@@ -1,0 +1,15 @@
+<%# the hour headers and the minute tick marks beneath
+10AM 11AM 12PM 1PM 2PM %>
+
+<li style="width: <%= 100/@hours_per_day.to_f %>%; left: <%= hour_counter*100/@hours_per_day.to_f%>%;" >
+  <div class="hours" >
+    <div class="center_container">
+      <div class="center_content">
+        <%=(Time.now.beginning_of_day + hour.hours).strftime("%l:%M%p")%>
+      </div>
+    </div>
+  </div>
+<%# what is the function of this partial? removing it seems to do nothing :/
+I thought it made the tick marks, but that seems to appear anyway somehow %>
+  <%#= render partial: "calendars/schedule/minutes", collection: (0..@blocks_per_hour-1).to_a %>
+</li>

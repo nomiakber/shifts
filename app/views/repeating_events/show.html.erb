@@ -1,0 +1,47 @@
+<% title "Repeating Event" %>
+
+<p>
+  <strong>Start Date:</strong>
+  <%= @repeating_event.start_date.to_date %>
+</p>
+<p>
+  <strong>End Date:</strong>
+  <%= @repeating_event.end_date.to_date %>
+</p>
+<p>
+  <strong>Start Time:</strong>
+  <%= @repeating_event.start_time.to_s(:am_pm) %>
+</p>
+<p>
+  <strong>End Time:</strong>
+  <%= @repeating_event.end_time.to_s(:am_pm) %>
+</p>
+<p>
+  <strong>Calendar:</strong>
+  <%= @repeating_event.calendar.name %>
+</p>
+
+<p>
+  <strong>Days Of Week:</strong>
+  <ul>
+    <% @repeating_event.days.each do |day|%>
+    <li> <%= day %> </li>
+    <% end %>
+  </ul>
+</p>
+
+<p>
+  <strong>Locations:</strong>
+<ul>
+  <% @repeating_event.locations.each do |loc| %>
+  <li> <%= loc.name %> </li>
+  <% end %>
+</ul>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_repeating_event_path(@repeating_event) %> |
+  <%= link_to "Destroy", @repeating_event, confirm: 'Are you sure?', method: :delete %> |
+  <%= link_to "View All", repeating_events_path %>
+</p>
+

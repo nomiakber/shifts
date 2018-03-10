@@ -1,0 +1,54 @@
+<% title "Stats for #{@location.name}" %>
+
+<div id="left_stuff">
+	<fieldset class="index" id="date_selector">
+		<%= form_tag(for_location_stats_path(id: @location.id), method: :post) do %>
+			  <%= label_tag :start_date %><br />
+			  <%= date_select(:stat, :start_date, default: @start_date)%>
+				<br />
+			  <%= label_tag :end_date %><br />
+			  <%= date_select(:stat, :end_date, default: @end_date)%>
+				<br />
+				<%= submit_tag 'Update dates' %>
+		<% end %>
+	</fieldset>
+</div>
+
+<div id="right_stuff">
+	<fieldset class ="index">
+		<% @summary = @location.summary_stats(@start_date, @end_date) %>
+		<%= render partial: 'stats/stats_summary', object: @summary %>
+	</fieldset>
+</div>
+
+<table id="stats_table" class="tablesorter">
+  <thead>
+    <tr>
+      <th align="left">Date</th>
+      <th align="left">Name</th>
+			<th align="left">Shift</th>
+      <th align="left">Notes</th>
+      <th align="left">Updates/Hour</th>
+    </tr>
+  </thead>
+	<tbody>
+		<% if @stats_hash == {} %>
+			<tr><td colspan="5">There are no stats for this period.</td></tr>
+		<% end %>
+		<% @stats_hash.each do |shift_id, stat_entry| %>
+			<tr>
+				<% s = Shift.find(stat_entry[:id]) %>
+				<td><%= s.start.to_date %></td>
+				<td><%= s.user.name %></td>
+				<% if !s.report.nil? %><td id="shift<%=s.id%>" class="<%= s.css_class(current_user) %> click_to_show"><a href="#"><%= stat_entry[:shift] %></td><% else %></a><td><%= stat_entry[:shift] %></td><% end %>
+				<td><%= stat_entry[:notes] %></td>
+				<td><%= stat_entry[:updates] %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<div id="AJAX_status"></div><%# for AJAX status updates %>
+<%= javascript_tag do %>
+  shiftsPath = '<%= shifts_path %>';
+<% end %>

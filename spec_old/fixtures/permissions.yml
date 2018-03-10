@@ -1,0 +1,46 @@
+permission_001:
+  id: "1"
+  name: Hogwarts dept admin
+permission_002:
+  id: "2"
+  name: Hogwarts payforms admin
+permission_003:
+  id: "3"
+  name: Hogwarts shifts admin
+permission_004:
+  id: "4"
+  name: Pet Store dept admin
+permission_005:
+  id: "5"
+  name: Pet Store payforms admin
+permission_006:
+  id: "6"
+  name: Pet Store shifts admin
+permission_010:
+  id: "10"
+  name: Outside of Hogwarts view
+permission_011:
+  id: "11"
+  name: Outside of Hogwarts signup
+permission_012:
+  id: "12"
+  name: Outside of Hogwarts admin
+permission_013:
+  id: "13"
+  name: Inside of Hogwarts view
+permission_014:
+  id: "14"
+  name: Inside of Hogwarts signup
+permission_015:
+  id: "15"
+  name: Inside of Hogwarts admin
+permission_016:
+  id: "16"
+  name: Comics view
+permission_017:
+  id: "17"
+  name: Comics signup
+permission_018:
+  id: "18"
+  name: Comics admin
+

@@ -1,0 +1,37 @@
+<%= error_messages_for :category %>
+<% title "Payform Categories"%>
+
+<table class = "tablesorter">
+ <thead>
+	<tr>
+		<th>Name</th>
+		<th>Payform Items</th>
+	</tr>
+ </thead>
+ <tbody>
+		<%= render partial: "category", collection: @categories.active %>
+ </tbody>
+</table>
+
+<% if !@categories.empty? %>
+<br /><h4>Disabled Categories:</h4>
+
+  <table class = "tablesorter">
+  	<%= render partial: "category", collection: @categories.disabled %>
+  </table>
+
+      <div class="note">
+        Note: Jobs cannot be added to disabled categories.
+        Payform items in disabled categories will appear under the "Miscellaneous" category.
+      </div>
+  <br />
+<% end %>
+
+<fieldset class = "index">
+    <legend>Add Category</legend><br />
+      <%= render partial: 'form', locals: {submit: "Create", category: [@department,@category] } %>
+  <br/>
+</fieldset>
+  
+  
+  

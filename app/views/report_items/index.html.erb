@@ -1,0 +1,26 @@
+<% title "Report Items" %>
+
+<table>
+  <tr>
+    <th>Report ID</th>
+    <!-- <th>Can Edit</th> -->
+    <th>Time</th>
+    <th>Content</th>
+    <th>Ip Address</th>
+  </tr>
+  <% for report_item in @report_items %>
+    <tr>
+      <td><%= report_item.report.id %></td>
+      <td><%#=h report_item.can_edit %></td>
+      <td><%= report_item.time %></td>
+      <td><%= report_item.content %></td>
+      <td><%= report_item.ip_address %></td>
+      <td><%= link_to "Show", report_item %></td>
+      <td><%= link_to "Edit", edit_report_item_path(report_item) %></td>
+      <td><%= link_to "Destroy", report_item, confirm: 'Are you sure?', method: :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p>new report item option will be found when viewing a report</p>
+

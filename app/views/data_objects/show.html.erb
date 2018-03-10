@@ -1,0 +1,64 @@
+<% title "#{@data_object.name}" %>
+
+	<div id="left_stuff">
+		<fieldset class="index" id="date_selector">
+		  <%= form_tag data_object_path(@data_object), method: :get %>
+				<%= label_tag :start_date %><br />
+	      <%= select_date(@start_date, prefix: 'start') %>
+				<br />
+				<%= label_tag :end_date %><br />
+	      <%= select_date(@end_date, prefix: 'end') %>
+				<br />
+	    <%= submit_tag 'Update Dates' %>
+		</fieldset>
+	</div>
+
+  <div id="right_stuff">
+		<fieldset class="index">
+	    <p>
+			<strong><%= @data_object.data_type.name.to_s + ": " %></strong>
+	    <%= @data_object.description ? @data_object.description : @data_object.data_type.description %>
+			</p>
+			<p>
+	    <strong>Locations:</strong>
+	    <%= @data_object.locations.map{|l| l.short_name}.join(', ') %>
+			</p>
+		</fieldset>
+	</div>
+
+    <p>
+      <table class = "tablesorter">
+        <%# this requires some rewriting, since data fields may change over time %>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <% @data_fields.each do |df| %>
+              <th><%= df.name %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <% unless @data_entries.empty? %>
+ 				<tbody>
+          <%= render(partial: "data_entries/data_entry_row",
+                     collection: @data_entries) %>
+        </tbody>
+				<% else %>
+				<tbody>
+				  <tr><td colspan="#{@data_fields.size}">There are no data entries to view.<td></tr>
+				</tbody>
+			  <% end %>
+      </table>
+      <br>
+    </p>
+
+
+
+
+  <% if current_user.is_admin_of?(current_department) %>
+    <p><%= link_to "Edit", edit_data_object_path(@data_object) %> |
+    <%= link_to "Destroy", @data_object,
+    confirm: 'Are you sure? This will destroy all data entries belonging to this object.',
+    method: :delete %> |
+  <% end %>
+  <%= link_to "View all data objects", data_objects_path %></p>
+

@@ -1,0 +1,49 @@
+<% type = 'deleted_item' if !payform_item.active && type != 'edit_item' %>
+<% if (payform_item.active && type != 'edit_item') || current_user.is_admin_of?(current_department) %>
+<tr class="<%= type %>">
+  <td class="date">
+    <%= "&uarr;".html_safe if type == 'edit_item' %>
+    <%= payform_item.date.strftime('%b %d') %>
+  </td>
+  <td class="description">
+    <% if payform_item.source_url %>
+      <%= link_to payform_item.description, payform_item.source_url %>
+    <% else %>
+      <%= payform_item.description %>
+    <% end %>
+  </td>
+  <td class ="description" id= "reason">
+    <%= payform_item.reason if current_user.is_admin_of?(current_department) %>
+    <%= "(original)" if type == 'edit_item' && payform_item.previous_version.nil? %>
+  </td>
+  <td class ="updated_by">
+    <% if current_user.is_admin_of?(current_department) %>
+        <%= payform_item.originator %>
+    <% end %>
+  </td>
+  <td class="rightside" id="hours" >
+    <%= number_with_precision(payform_item.hours, precision: 2) %>
+  </td>
+  <% if type != 'edit_item' %>
+    <td class="rightside" id="edit">
+      <% if payform_item.active && payform_item.payform && !payform_item.payform.approved %>
+        <%= link_to 'edit', edit_payform_item_path(payform_item), 
+            data:{toggle:'modal', target:'#modal', remote: edit_payform_item_path(payform_item, layout: "false")} %>
+      <% end %>
+    </td>
+    <td class="rightside" id="delete">
+      <% if payform_item.active && payform_item.payform && !payform_item.payform.approved %>
+        <%= link_to "&#x2716;".html_safe, delete_payform_item_path(payform_item),
+            data:{toggle:'modal', target: '#modal', remote: delete_payform_item_path(payform_item, layout: "false")}%>
+      <% end %>
+    </td>
+  <% else %>
+    <td></td><td></td>
+  <% end %>
+</tr>
+<% end %>
+
+<% unless payform_item.previous_version.blank? %>
+  <% payform_item = payform_item.previous_version %>
+  <%= render partial: "payform_item", object: payform_item, locals: {type: 'edit_item' } %>
+<% end %>

@@ -1,0 +1,64 @@
+<%= form_for @restriction do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :starts %><br />
+    <%= f.date_select :start_date, default: @restriction.starts, id: :start_date  %><br />
+    <%= f.time_select :start_time, {
+                include_start_time: true,
+                include_end_time: false,
+                default: @restriction.starts,
+                                          } %>
+
+  </p>
+  <p>
+    <%= f.label :expires %><br />
+    <%= f.date_select :end_date, default: @restriction.expires.to_date, id: :end_date  %><br /	>
+    <%= f.time_select :end_time, {
+                include_start_time: true,
+                include_end_time: false,
+                default: @restriction.expires,
+                                          } %>  </p>
+  <p>
+    <%= f.label :max_subs %><br />
+    <%= f.text_field :max_subs %>
+  </p>
+  <p>
+    <%= f.label :max_hours %><br />
+    <%= f.text_field :max_hours %>
+  </p>
+
+  <span id ="advanced_link" style="display:none" >
+  <%= link_toggle "advanced", "Show/hide advanced options", "fast" %>
+  </span>
+  <div id="advanced">
+    <%= label_tag :for_users, "Search for a user, role, or department" %>
+    <%= text_field_tag :for_users, nil, class: :autocomplete %>
+    <%= javascript_tag do %>
+      autocomplete_path = "<%= j autocomplete_department_users_path(current_department).html_safe %>"
+      prepopulated_data = <%= users_to_autocomplete_json(@restriction.users) %>
+      set_up_autocomplete("for_users", autocomplete_path, prepopulated_data)
+    <% end %>
+    <p>
+      For locations: <br />
+      <% if current_user.is_admin_of?(@department) %>
+        <%= check_box_tag :department_wide_locations %><%= @department.name %> (all locations)<br />
+      <% end %>
+      <div id="all_locations">
+      <% for loc_group in @department.loc_groups do %>
+        &nbsp;&nbsp;&nbsp;
+        <li id='restriction_li'>
+          <%= check_box_tag "for_location_groups[]", loc_group.id, @restriction.loc_groups.include?(loc_group), disabled: false %><%= loc_group.name %>:
+          <% for location in loc_group.locations do %>
+            <%= check_box_tag "for_locations[]", location.id, @restriction.locations.include?(location), disabled: false %>
+            <%= location.name %> &nbsp;
+          <% end %>
+          <br />
+        </li>
+      <% end %>
+      </div>
+    </p>
+  </div>
+
+
+  <p><%= f.submit "Submit" %></p>
+<% end %>

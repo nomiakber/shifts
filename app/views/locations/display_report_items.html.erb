@@ -1,0 +1,14 @@
+<table class="tablesorter">
+	<thead>
+		<tr>
+		 <th colspan=3>Recent Report Items at the <%= @location.name %></th>
+		</tr>
+	</thead>
+	<tbody id="all_report_items">
+		<%= render partial: 'report_items' %>
+	</tbody>
+</table>
+
+<%= form_tag url_for(action: 'display_report_items', id: @location.id, more_items: true), remote: true  do %>
+	<%= submit_tag "Display More", data: {disable_with: "Getting new report items..."} %>
+<% end %>

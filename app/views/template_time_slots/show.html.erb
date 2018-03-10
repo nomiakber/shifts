@@ -1,0 +1,20 @@
+<% title 'Template Time Slot' %>
+
+<p>
+  <b>Day:</b>
+  <%= @template_time_slot.day %>
+</p>
+
+<p>
+  <b>Start:</b>
+  <%= @template_time_slot.start_time %>
+</p>
+
+<p>
+  <b>End:</b>
+  <%= @template_time_slot.end_time %>
+</p>
+
+
+<%= link_to 'Edit', edit_template_time_slot_path(@template_time_slot) %> |
+<%= link_to 'Back', template_time_slots_path %>

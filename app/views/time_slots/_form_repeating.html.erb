@@ -1,0 +1,67 @@
+<% calculate_default_times_repeating_events %>
+
+<p style="margin-top: -10px">
+  <%= check_box_tag "whole_calendar", "1", false, onclick: "$('#date_selects').toggle()" %> 
+  <%= label_tag "whole_calendar", "Apply to entire calendar (does not work on default calendar)" %>
+</p>
+
+<div style="float:left">
+  <div id="date_selects">
+    <p>
+      <%= f.label :start_date %><br />
+      <%= f.date_select :start_date, default: @default_start_date.previous_sunday.to_date %>
+    </p>
+    <p>
+      <%= f.label :end_date %><br />
+      <%= f.date_select :end_date, default: @default_start_date.previous_sunday.to_date + 6.days %>
+    </p>
+  </div>
+  <p>
+    <%= f.label :start_time %><br />
+    <%= f.time_select :start_time, {
+            default: @repeating_event.start_time,
+            minute_step: @time_increment, ampm: true
+            } %>
+  </p>
+  <p>
+    <%= f.label :end_time %><br />
+    <%= f.time_select :end_time, {
+            default: @repeating_event.end_time,
+            minute_step: @time_increment, ampm: true
+                                      } %>
+  </p>
+  <p>
+	<div id = "all_locations">
+    <% for loc_group in current_department.loc_groups do %>
+			<li id = "repeating_event_li">
+	      <%= check_box_tag "for_location_groups[]", loc_group.id, false, style: "display: none;" %>
+	      <%= label_tag "location_group_#{loc_group.id}", text = loc_group.name %>:
+	      <% loc_group.locations.each_with_index do |location, i| %>
+	        <%= check_box_tag "for_locations[#{location.id}]", location.id, (@repeating_event.location_ids && @repeating_event.location_ids.include?(location.id)), name: "for_locations[]" %>
+	        <%= label_tag "for_locations[#{location.id}]", text = location.short_name %>
+          <%= "<br>".html_safe if (i == 1) || ((i-2) % 5 == 4) %>
+	      <% end %>
+	    </li>
+    <% end %>
+  	</div>
+  </p>
+</div>
+<div style="float:left; margin-left: 7px; padding-left: 7px; border-left: 1px solid black">
+  <p>
+    <%= f.label :calendar_id %><br />
+    <%= select_tag 'repeating_event[calendar_id]', options_from_collection_for_select(current_department.calendars, :id, :name, params[:calendar].to_i)%>
+  </p>
+  <p>
+    <% params[:date] ? default_day = Time.parse(params[:date]).wday : false %>
+    <i>Days:</i><br />
+    <% WEEK_DAYS.each_with_index do |day, i| %>
+      <%= check_box_tag "days[]", i, ((i == default_day) or (@repeating_event.days && @repeating_event.days.include?(day))), {id: "days_#{i}"} %>
+      <%= label_tag "days_#{i}", day %><br>
+    <% end %>
+  </p>
+  <p>
+    <%= label_tag "wipe", "Wipe conflicts?" %><br />
+    <%= check_box_tag "wipe", "1", true %>
+  </p>
+  <%= f.hidden_field :slot_or_shift, value: "time_slot"%>
+</div>

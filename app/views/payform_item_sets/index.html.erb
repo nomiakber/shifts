@@ -1,0 +1,25 @@
+<% title "Group Jobs" %>
+
+<%= link_to "Add a Group Job", new_payform_item_set_path, class: 'btn btn-default' %>
+
+<table class="tablesorter">
+ <thead>
+  <tr>
+    <th>Date Added</th>
+	<% unless mobile_device?%>
+    <th>Hours Added</th>
+    <th>Category</th>
+    <th>Description</th>
+	<% end %>
+  </tr>
+ </thead>
+  <tbody>
+  <%= render partial: "payform_item_set", collection: @active_sets %>
+  </tbody>
+</table>
+<% if !@expired_sets.empty? %>
+  Expired sets:
+  <table class = "tablesorter">
+    <%= render partial: "payform_item_set", collection: @expired_sets %>
+  </table>
+<% end %>

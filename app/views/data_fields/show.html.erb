@@ -1,0 +1,19 @@
+<% title "Data Field" %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @data_field.name %>
+</p>
+<p>
+  <strong>Display Type:</strong>
+  <%= @data_field.display_type %>
+</p>
+<p>
+  <strong>Values:</strong>
+  <%= @data_field.values %>
+</p>
+<p>
+  <%= link_to "Edit", edit_data_type_data_field_path(@data_field.data_type, @data_field) %> |
+  <%= link_to "Destroy", data_type_data_field_path(@data_field.data_type, @data_field), confirm: 'Are you sure?', method: :delete %> |
+  <%= link_to "View All", data_type_data_fields_path(@data_field.data_type) %>
+</p>

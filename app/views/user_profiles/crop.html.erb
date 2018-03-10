@@ -1,0 +1,12 @@
+<% title "Crop Photo" %>
+
+<%= image_tag @user_profile.photo.url(:original), id: "cropbox" %>
+<a href="#" class="show_hide">Show/hide crop dimensions</a>
+<%= form_for @user_profile do |form| %>
+  <div class="cropFields">
+    <% for attribute in [:crop_x, :crop_y, :crop_w, :crop_h] %>
+      <%= form.text_field attribute, id: attribute %>
+    <% end %>
+  </div>
+  <p><%= form.submit "Crop" %></p>
+<% end %>

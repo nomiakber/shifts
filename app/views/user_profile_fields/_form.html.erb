@@ -1,0 +1,51 @@
+<%= form_for @user_profile_field do |f| %>
+  <%= f.error_messages %>
+  <%# I realize this is really messy, hopefully we can fix it when we upgrade to jquery 1.6, with ujs %>
+  <%= javascript_tag do %>
+    values = '<%= escape_javascript(f.label :values) %>';
+    textField = '<%= escape_javascript(f.text_field :values) %>';
+  <% end %>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+      <%= f.label :display_type %><br />
+      <%= f.select :display_type, options=(UserProfileField::DISPLAY_TYPE_OPTIONS), {}, class: "display_type",
+          onchange: "$(this).parent().parent().find('.value_field').html(description($(this).find(':selected').val()))" %><br/>
+    </p>
+    <p>
+      <div class="value_field">
+        <%= f.label :values %><br />
+        <div class = "form_right">
+        <fieldset>
+          <em><small>
+            Text field: Value should be either 'integer', 'decimal', or 'text'.
+            <p> Check boxes, Select from a list, Multiple choice: Enter a comma-separated list of choices</p>
+            <p>Paragraph text: nothing is needed here </p>
+          </small></em>
+        </fieldset>
+        </div>
+        <%= f.text_field :values %>
+      </div>
+    </p>
+
+
+  <p>
+  <%= f.label :index_display, "Displayed in Index?"%>
+  <%= f.check_box :index_display %>
+  </p>
+
+  <p>
+    <%= f.label :public, "Public?"  %>
+    <%= f.check_box :public %>
+  </p>
+  <p>
+    <%= f.label :user_editable, "User Editable?" %>
+    <%= f.check_box :user_editable %>
+  </p>
+  <p><%= f.submit "Submit" %></p>
+<% end %>
+
+

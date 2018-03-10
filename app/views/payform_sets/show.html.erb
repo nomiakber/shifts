@@ -1,0 +1,27 @@
+<% title "Printed "+@payform_set.created_at.strftime(date_format+" at "+time_format) %>
+
+<p>
+  Number of payforms: <%= @payform_set.payforms.length %>
+</p>
+
+<p>
+  <%= link_to "Export Spreadsheet (CSV)", action: "show", id: @payform_set, format: :csv %>
+</p>
+<p>
+  <%= link_to "Export to Workday-compatible XML",  action: "show", id: @payform_set, format: :xml %>
+</p>
+<p>
+  <%= link_to "Print History", payform_sets_path %>
+</p>
+<table>
+  <tr>
+    <th>Category</th>
+    <th>Hours</th>
+  </tr>
+  <% @grouped_items.each do |category_name, items| %>
+    <tr>
+      <td><%= category_name %></td>
+      <td><%= PayformItem.rounded_hours(items) %> </td>
+    </tr>
+  <% end %>
+</table>

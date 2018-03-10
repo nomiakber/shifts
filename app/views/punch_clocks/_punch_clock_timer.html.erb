@@ -1,0 +1,8 @@
+<% no_of_sec = punch_clock_timer.paused ? punch_clock_timer.runtime : (Time.now - punch_clock_timer.last_touched + punch_clock_timer.runtime) %>
+<div id="timer">
+  <noscript><%= punch_clock_timer.running_time %></noscript>
+</div>
+<%= javascript_tag do %>
+  time = '<%= Time.now.to_s(:utc) %>';
+  sec  = '<%= no_of_sec %>';
+<% end %>

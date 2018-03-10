@@ -1,0 +1,23 @@
+development:
+  adapter: mysql2
+  encoding: utf8
+  database: db/shifts_development
+  pool: 5
+  username:
+  password:
+
+test: &TEST
+  adapter: mysql2
+  encoding: utf8
+  database: db/shifts_test
+  pool: 5
+  username:
+  password:
+
+production:
+  adapter: mysql2
+  encoding: utf8
+  database: db/shifts_production
+  pool: 5
+  username:
+  password:

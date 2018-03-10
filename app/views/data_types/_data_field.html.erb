@@ -1,0 +1,13 @@
+<div class="data_field">
+  <fieldset>
+  <%= fields_for_data_field(data_field) do |df_form| %>
+
+    <div class="delete_link">
+      <%= link_to_function "remove this data field", "$(this).closest('.data_field').remove()"%>
+    </div>
+
+    <%= render partial: 'data_fields/description', locals:{df_form: df_form}%>
+  <% end %>
+  </fieldset>
+  <br>
+</div>
